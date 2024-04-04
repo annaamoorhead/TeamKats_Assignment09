@@ -1,14 +1,42 @@
 #catClass.py
 
+# Name: Gillian Howard
+# Email: howardgy@mail.uc.edu
+# Assignment Number: Assignment 09
+# Due Date: 4/4/2024
+# Course/Section: IS 4010
+# Semester/Year: Spring 2024
+# Brief Description of the assignment: Executing an API call using a URL.
+
+# Brief Description of what this module does: Creates the cat class and defines the functions we
+# need to fetch a random cat fact from our API, parse to a json dictionary, and print the random cat fact. 
+# Citations:
+# Anything else that's relevant:
+
 import requests
 import json
 
-    #response = requests.get('https://cat-fact.herokuapp.com/facts/random?animal_type=cat&amount=2')
-    #json_string = response.content
-    
-    #parsed_json = json.loads(json_string) # Now we have a python dictionary
-    
-    #status = int(parsed_json['status']) # The number of parks that were returned
-    
-    #for park in parsed_json['status']:
-        #print (park)
+class catFactsAPI:
+    def __init__(self):
+        '''
+        Initializes the CatFactsAPI object with the base URL for 
+        fetching random cat facts.
+        '''
+        self.base_url = 'https://cat-fact.herokuapp.com/facts/random?animal_type=cat&amount=2'
+        
+    def fetch_random_cat_fact(self):
+        '''
+        Fetches a random cat fact from the Cat Facts API.
+        @return A random cat fact if available and has the word 'cat' in it, 
+        otherwise prints "No random cat fact available"
+        '''
+        response = requests.get(self.base_url)
+        if response.status_code == 200:
+            cat_fact = response.json()
+            for fact in cat_fact:
+                text = fact.get('text', '').lower()
+                # Check if the word 'cat' is present in the fact
+                if 'cat' in text:
+                    return text
+                else:
+                    return print("No random cat fact available")
